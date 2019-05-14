@@ -70,12 +70,12 @@ int main(int argc, char *argv[])
 
     //Calculate size of firmware image
     struct stat st;
-    if(stat(filename, &st) != 0) {
-                return;
+    if(stat("firmware.bin", &st) != 0) {
+                return 0;
     }
 
     int size = st.st_size;
 
-    std::cout << "Firmware image built!\n Total size of " + size.to_string();
+    std::cout << "Firmware image built!\n Total size of " + std::to_string(size) " bytes\n";
 }
 
