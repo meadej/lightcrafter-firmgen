@@ -76,6 +76,6 @@ int main(int argc, char *argv[])
 
     int size = st.st_size;
 
-    std::cout << "Firmware image built!\n Total size of " + std::to_string(size) " bytes\n";
+    std::cout << "Firmware image built!\n Total size of " + std::to_string(size) + " bytes\n";
 }
 
