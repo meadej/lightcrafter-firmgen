@@ -24,7 +24,7 @@ def format_firmware():
         imgptr = ctypes.cast(imgfile, ctypes.POINTER(ctypes.c_byte))
         imgptr_full = ctypes.cast(imgptr, ctypes.POINTER(ctypes.c_ubyte))
 
-        ret = firmware.DLPC350_Frmw_SPLASH_AddSplash(imgptr_full, compression, comp_size)
+        #ret = firmware.DLPC350_Frmw_SPLASH_AddSplash(imgptr_full, compression, comp_size)
 
     firmware.DLPC350_Frmw_Get_NewFlashImage(new_img, new_img_size)
 
@@ -32,14 +32,21 @@ def format_firmware():
         f.write(new_img)
     f.close()
 
+    return
+
 
 def main():
     global img_arr, image_count
     folder_dir = sys.argv[1]
+
+    print("Firmware build beginning...")
+
+    # Finding image files
     img_arr = [join(folder_dir,f) for f in listdir(folder_dir) if isfile(join(folder_dir, f)) and f.endswith(".bmp")]
     image_count = len(img_arr)
 
     format_firmware()
+    print("Firmware build complete")
 
 
 if __name__ == "__main__":
