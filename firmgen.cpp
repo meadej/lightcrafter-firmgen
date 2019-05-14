@@ -67,6 +67,15 @@ int main(int argc, char *argv[])
     std::ofstream outfile ("firmware.bin",std::ofstream::binary);
     outfile.write((const char*)newFrmwImage, newFrmwSize);
     outfile.close();
-	std::cout << "Firmware image build!";
+
+    //Calculate size of firmware image
+    struct stat st;
+    if(stat(filename, &st) != 0) {
+                return;
+    }
+
+    int size = st.st_size;
+
+    std::cout << "Firmware image built!\n Total size of " + size.to_string();
 }
 
