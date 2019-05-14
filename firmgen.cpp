@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     unsigned char *newFrmwImage;
     uint32 newFrmwSize;
 
-    
+	std::cout << "Beginning file discovery...\n";    
     DIR *dpdf;
     struct dirent *epdf;
 
@@ -60,11 +60,13 @@ int main(int argc, char *argv[])
    		}	
 	}
     closedir(dpdf);
-
+	std::cout << "Files discovered and added...\n";
+	std::cout << "Building firmware image...\n";
     DLPC350_Frmw_Get_NewFlashImage(&newFrmwImage, &newFrmwSize);
 
     std::ofstream outfile ("firmware.bin",std::ofstream::binary);
     outfile.write((const char*)newFrmwImage, newFrmwSize);
     outfile.close();
+	std::cout << "Firmware image build!";
 }
 
