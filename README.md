@@ -14,8 +14,10 @@ gcc -std=c++11 firmgen.cpp -o firmgen
 Ensure your output executable from the build is located within the same folder as the images you want to add to the
 firmware file and run
 ```
-./firmgen
+./firmgen [options]
 ```
+Viable option flags include
+* --compress : compress the firmware file for an easier transfer
 
 ### Credits
 Developed by Jonathan Meade for Elizabeth Strong.   

@@ -27,7 +27,7 @@ int interpretArgs(int argc, char* argv[])
 void writeParams()
 {
     // Assuming default values. If necessary, we can upload to lightcrafter and change those as well.
-    int defaultParam = 0;
+    uint32 defaultParam = 0;
 
     DLPC350_Frmw_WriteApplConfigData("DEFAULT.LED_ENABLE_MAN_MODE", &defaultParam, 1);
     DLPC350_Frmw_WriteApplConfigData("DEFAULT.MAN_ENABLE_RED_LED", &defaultParam, 1);
@@ -41,7 +41,7 @@ void addFile(const char* filename)
   	struct stat st;
   	if(stat(filename, &st) != 0)
   	{
-  	    std::cout << "Filename not found."
+  	    std::cout << "Filename not found.";
   	}
     
 	int size = st.st_size;   
