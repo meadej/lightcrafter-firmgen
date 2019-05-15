@@ -14,24 +14,22 @@ uint32 compSize;
 void addFile(const char* filename)
 {
   	struct stat st;
-    	if(stat(filename, &st) != 0) {
-        	return;
-    	}	
+  	if(stat(filename, &st) != 0) {
+  	    cout << "Filename not found."
+  	}
     
 	int size = st.st_size;   
 
 	char *pByteArray = (char*) malloc(size);
 
     std::ifstream is (filename, std::ifstream::binary);
+
     if (is) {
         is.seekg(0, is.end);
         int length = is.tellg();
         is.seekg(0, is.beg);
-
         is.read(pByteArray, length);
-
         is.close();
-
     }
 
     DLPC350_Frmw_SPLASH_AddSplash((unsigned char*)pByteArray, &compression, &compSize);
@@ -44,14 +42,14 @@ int main(int argc, char *argv[])
 
 	std::cout << "Beginning file discovery...\n";    
     DIR *dpdf;
-    struct dirent *epdf;
+    struct dirent *fileSearchPtr;
 
     dpdf = opendir("./");
 	if (dpdf != NULL){
-   		while (epdf = readdir(dpdf)){
-      			if (epdf->d_type == DT_REG)
+   		while (fileSearchPtr = readdir(dpdf)){
+   		    if (fileSearchPtr->d_type == DT_REG)
 			{
-				std::string fname = epdf->d_name;
+				std::string fname = fileSearchPtr->d_name;
 				if (fname.find(".bmp", (fname.length() - 4)) != std::string::npos)	
 				{
 					addFile(fname.c_str());
@@ -59,11 +57,13 @@ int main(int argc, char *argv[])
 			}
    		}	
 	}
+
     closedir(dpdf);
+
 	std::cout << "Files discovered and added...\n";
 	std::cout << "Building firmware image...\n";
-    DLPC350_Frmw_Get_NewFlashImage(&newFrmwImage, &newFrmwSize);
 
+    DLPC350_Frmw_Get_NewFlashImage(&newFrmwImage, &newFrmwSize);
     std::ofstream outfile ("firmware.bin",std::ofstream::binary);
     outfile.write((const char*)newFrmwImage, newFrmwSize);
     outfile.close();
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     //Calculate size of firmware image
     struct stat st;
     if(stat("firmware.bin", &st) != 0) {
-                return 0;
+        return 0;
     }
 
     int size = st.st_size;
