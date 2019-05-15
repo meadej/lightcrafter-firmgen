@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string>
+#include <vector>
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include "dlpc350_firmware.h"
@@ -67,8 +69,8 @@ void addFile(const char* filename)
         imgFile.close();
     }
 
-    DLPC350_Frmw_SPLASH_AddSplash((unsigned char*)pByteArray, &compression, &compSize);
-    std::cout << "Added file " << filename << "\n";
+    int ret = DLPC350_Frmw_SPLASH_AddSplash((unsigned char*)pByteArray, &compression, &compSize);
+    std::cout << "Added file " << filename << " with code " << std::to_string(ret) << "\n";
 }
 
 int main(int argc, char *argv[])
@@ -78,13 +80,12 @@ int main(int argc, char *argv[])
 
     interpretArgs(argc, argv);
 
-    std::cout << "Writing configuration data...\n";
-    writeParams();
-    std::cout << "Configuration data written...\n";
-
     std::cout << "Beginning file discovery...\n";
+    int filecount = 0;
     DIR *dpdf;
     struct dirent *fileSearchPtr;
+
+    std::vector<std::string> files;
 
     // File discovery. Locating all bmp files within the directory.
     dpdf = opendir("./");
@@ -96,7 +97,8 @@ int main(int argc, char *argv[])
 				std::string fname = fileSearchPtr->d_name;
 				if (fname.find(".bmp", (fname.length() - 4)) != std::string::npos)	
 				{
-					addFile(fname.c_str());
+				    filecount += 1;
+					files.push_back(fname.c_str());
 				}
 			}
    		}	
@@ -104,8 +106,26 @@ int main(int argc, char *argv[])
 
     closedir(dpdf);
 
-	std::cout << "Files discovered and added...\n";
-	std::cout << "Building firmware image...\n";
+	std::cout << "Files discovered...\n";
+	std::cout << "Initializing buffer...\n";
+
+	DLPC350_Frmw_SPLASH_InitBuffer(filecount);
+
+	std::cout << "Buffer initialized...\n";
+    std::cout << "Writing configuration data...\n";
+
+    writeParams();
+
+    std::cout << "Configuration data written...\n";
+    std::cout << "Adding files...\n";
+
+    for (int j = 0; j < filecount; j++)
+    {
+        addFile(files.at(j))
+    }
+
+    std::cout << "Files added...\n";
+    std::cout << "Building firmware image...\n";
 
     DLPC350_Frmw_Get_NewFlashImage(&newFrmwImage, &newFrmwSize);
     std::ofstream outfile ("firmware.bin",std::ofstream::binary);
