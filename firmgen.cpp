@@ -11,10 +11,36 @@
 uint8 compression = 0;
 uint32 compSize;
 
+int interpretArgs(int argc, char* argv[])
+{
+    // Interpreting arguments to the program, specifically compression.
+    if (argc > 1)
+    {
+        for (int i = 0; i < argc; i++)
+        {
+            if (argv[i] == "--compress")
+                compression = 5;
+        }
+    }
+}
+
+void writeParams()
+{
+    // Assuming default values. If necessary, we can upload to lightcrafter and change those as well.
+    param = 0x00;
+
+    DLPC350_Frmw_WriteApplConfigData("DEFAULT.LED_ENABLE_MAN_MODE", &param, 1);
+    DLPC350_Frmw_WriteApplConfigData("DEFAULT.MAN_ENABLE_RED_LED", &param, 1);
+    DLPC350_Frmw_WriteApplConfigData("DEFAULT.MAN_ENABLE_GRN_LED", &param, 1);
+    DLPC350_Frmw_WriteApplConfigData("DEFAULT.MAN_ENABLE_BLU_LED", &param, 1);
+    DLPC350_Frmw_WriteApplConfigData("MACHINE_DATA.COLORPROFILE_0_BRILLIANTCOLORLOOK", &param, 1);
+}
+
 void addFile(const char* filename)
 {
   	struct stat st;
-  	if(stat(filename, &st) != 0) {
+  	if(stat(filename, &st) != 0)
+  	{
   	    cout << "Filename not found."
   	}
     
@@ -22,14 +48,18 @@ void addFile(const char* filename)
 
 	char *pByteArray = (char*) malloc(size);
 
-    std::ifstream is (filename, std::ifstream::binary);
+    std::ifstream imgFile(filename, std::ifstream::binary);
 
-    if (is) {
-        is.seekg(0, is.end);
-        int length = is.tellg();
-        is.seekg(0, is.beg);
-        is.read(pByteArray, length);
-        is.close();
+    // Read image file. Adapted from cpp documentation.
+    if (imgFile)
+    {
+        imgFile.seekg(0, imgFile.end);
+        int length = imgFile.tellg();
+        imgFile.seekg(0, imgFile.beg);
+
+        imgFile.read(pByteArray, length);
+
+        imgFile.close();
     }
 
     DLPC350_Frmw_SPLASH_AddSplash((unsigned char*)pByteArray, &compression, &compSize);
@@ -40,13 +70,19 @@ int main(int argc, char *argv[])
     unsigned char *newFrmwImage;
     uint32 newFrmwSize;
 
-	std::cout << "Beginning file discovery...\n";    
+    std::cout << "Writing configuration data...\n";
+    writeParams();
+    std::cout << "Configuration data written...\n";
+
+    std::cout << "Beginning file discovery...\n";
     DIR *dpdf;
     struct dirent *fileSearchPtr;
 
+    // File discovery. Locating all bmp files within the directory.
     dpdf = opendir("./");
 	if (dpdf != NULL){
-   		while (fileSearchPtr = readdir(dpdf)){
+   		while (fileSearchPtr = readdir(dpdf))
+   		{
    		    if (fileSearchPtr->d_type == DT_REG)
 			{
 				std::string fname = fileSearchPtr->d_name;
@@ -70,7 +106,8 @@ int main(int argc, char *argv[])
 
     //Calculate size of firmware image
     struct stat st;
-    if(stat("firmware.bin", &st) != 0) {
+    if(stat("firmware.bin", &st) != 0)
+    {
         return 0;
     }
 

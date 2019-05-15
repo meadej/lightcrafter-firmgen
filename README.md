@@ -1,15 +1,21 @@
 # lightcrafter-firmgen
 
 ### Dependencies
-Python >3.0 
+* C++ 11
+* gcc 9.1
+
+### Building
+Ensure gcc is properly configured for your system and, within the source directory, run the following
+```
+gcc -std=c++11 firmgen.cpp -o firmgen
+```
 
 ### Usage
+Ensure your output executable from the build is located within the same folder as the images you want to add to the
+firmware file and run
 ```
-python firmgen-interface.py [image directory]
+./firmgen
 ```
-For example, if your images are stored in C:\Users\Rob\Desktop\imgs, you 
-would use `python firmgen-interface.py C:\Users\Rob\Desktop\imgs`.
-
 
 ### Credits
 Developed by Jonathan Meade for Elizabeth Strong.   
