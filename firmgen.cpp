@@ -18,7 +18,6 @@ int interpretArgs(int argc, char* argv[])
     {
         for (int i = 0; i < argc; i++)
         {
-            std::cout << argv[i] << "\n";
             if (argv[i] ==  "--compress")
             {
                 compression = 5;
@@ -74,6 +73,8 @@ int main(int argc, char *argv[])
 {
     unsigned char *newFrmwImage;
     uint32 newFrmwSize;
+
+    interpretArgs(argc, argv);
 
     std::cout << "Writing configuration data...\n";
     writeParams();
