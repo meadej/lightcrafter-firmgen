@@ -1,5 +1,2 @@
-CC=gcc
-CFLAGS=-std=c++11.
-
 make: firmgen.cpp
-    $(CC) -o firmgen
+    gcc -std=c++11 -o firmgen firmgen.cpp -I
