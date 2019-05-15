@@ -119,7 +119,8 @@ int main(int argc, char *argv[])
 
     for (int j = 0; j < filecount; j++)
     {
-        addFile(files.at(j))
+	std::string sat = files.at(j);
+	addFile(sat.c_str());
     }
 
     std::cout << "Files added...\n";
