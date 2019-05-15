@@ -29,11 +29,11 @@ void writeParams()
     // Assuming default values. If necessary, we can upload to lightcrafter and change those as well.
     uint32 defaultParam = 0;
 
-    DLPC350_Frmw_WriteApplConfigData("DEFAULT.LED_ENABLE_MAN_MODE", &defaultParam, 1);
-    DLPC350_Frmw_WriteApplConfigData("DEFAULT.MAN_ENABLE_RED_LED", &defaultParam, 1);
-    DLPC350_Frmw_WriteApplConfigData("DEFAULT.MAN_ENABLE_GRN_LED", &defaultParam, 1);
-    DLPC350_Frmw_WriteApplConfigData("DEFAULT.MAN_ENABLE_BLU_LED", &defaultParam, 1);
-    DLPC350_Frmw_WriteApplConfigData("MACHINE_DATA.COLORPROFILE_0_BRILLIANTCOLORLOOK", &defaultParam, 1);
+    DLPC350_Frmw_WriteApplConfigData((char*)"DEFAULT.LED_ENABLE_MAN_MODE", &defaultParam, 1);
+    DLPC350_Frmw_WriteApplConfigData((char*)"DEFAULT.MAN_ENABLE_RED_LED", &defaultParam, 1);
+    DLPC350_Frmw_WriteApplConfigData((char*)"DEFAULT.MAN_ENABLE_GRN_LED", &defaultParam, 1);
+    DLPC350_Frmw_WriteApplConfigData((char*)"DEFAULT.MAN_ENABLE_BLU_LED", &defaultParam, 1);
+    DLPC350_Frmw_WriteApplConfigData((char*)"MACHINE_DATA.COLORPROFILE_0_BRILLIANTCOLORLOOK", &defaultParam, 1);
 }
 
 void addFile(const char* filename)
