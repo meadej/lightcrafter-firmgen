@@ -18,12 +18,10 @@ int interpretArgs(int argc, char* argv[])
     {
         for (int i = 0; i < argc; i++)
         {
-            switch(argv[i]
+            if (argv[i] ==  "--compress")
             {
-                case "--compress":
-                    compression = 5;
-                    std::cout << "Auto-compression set.\n";
-                    break;
+                compression = 5;
+                std::cout << "Auto-compression set.\n";
             }
         }
     }
