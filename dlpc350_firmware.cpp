@@ -414,7 +414,7 @@ int DLPC350_Frmw_CopyAndVerifyImage(const unsigned char *pByteArray, int size)
 
     if(flash_table->Signature != FLASHTABLE_APP_SIGNATURE)
     {
-        FLASH_TABLE_ADDRESS = 0x00008000;
+	FLASH_TABLE_ADDRESS = 0x00008000;
 
         flash_table = (FLASH_TABLE *)(pFrmwImageArray + FLASH_TABLE_ADDRESS);
 
@@ -423,7 +423,6 @@ int DLPC350_Frmw_CopyAndVerifyImage(const unsigned char *pByteArray, int size)
             FLASH_TABLE_ADDRESS = 0x00020000;
 
             flash_table = (FLASH_TABLE *)(pFrmwImageArray + FLASH_TABLE_ADDRESS);
-
             if(flash_table->Signature != FLASHTABLE_APP_SIGNATURE)
                 return ERROR_FRMW_FLASH_TABLE_SIGN_MISMATCH;
         }
