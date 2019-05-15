@@ -13,13 +13,18 @@ uint32 compSize;
 
 int interpretArgs(int argc, char* argv[])
 {
-    // Interpreting arguments to the program, specifically compression.
+    // Interpreting arguments to the program.
     if (argc > 1)
     {
         for (int i = 0; i < argc; i++)
         {
-            if (argv[i] == "--compress")
-                compression = 5;
+            switch(argv[i]
+            {
+                case "--compress":
+                    compression = 5;
+                    std::cout << "Auto-compression set.\n";
+                    break;
+            }
         }
     }
 }
@@ -41,7 +46,7 @@ void addFile(const char* filename)
   	struct stat st;
   	if(stat(filename, &st) != 0)
   	{
-  	    std::cout << "Filename not found.";
+  	    std::cout << "Filename not found.\n";
   	}
     
 	int size = st.st_size;   
