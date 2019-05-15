@@ -63,6 +63,7 @@ void addFile(const char* filename)
     }
 
     DLPC350_Frmw_SPLASH_AddSplash((unsigned char*)pByteArray, &compression, &compSize);
+    std::cout << "Added file " + filename + "\n";
 }
 
 int main(int argc, char *argv[])
