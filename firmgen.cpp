@@ -71,12 +71,34 @@ void addFile(const char* filename)
     std::cout << "Added file " << filename << " with code " << std::to_string(ret) << "\n";
 }
 
+int loadEmptyFirmware()
+{
+    char* emptyFrmwFile = "emptyfrmw.bin";
+
+    struct stat st;
+    if(stat(filename, &st) != 0)
+    {
+        std::cout << "Filename not found.\n";
+    }
+
+    int size = st.st_size;
+    pByteArray = (unsigned char *)malloc(size);
+
+    return DLPC350_Frmw_CopyAndVerifyImage(pByteArray, fileLen);
+}
+
 int main(int argc, char *argv[])
 {
     unsigned char *newFrmwImage;
     uint32 newFrmwSize;
 
     interpretArgs(argc, argv);
+
+    std::cout << "Loading empty firmware...\n";
+
+    int ret = loadEmptyFirmware();
+
+    std::cout << "Empty firmware loaded with code " << std::to_string(ret) << "...\n";
 
     std::cout << "Beginning file discovery...\n";
     int filecount = 0;
@@ -119,8 +141,8 @@ int main(int argc, char *argv[])
 
     for (int j = 0; j < filecount; j++)
     {
-	std::string sat = files.at(j);
-	addFile(sat.c_str());
+	    std::string sat = files.at(j);
+	    addFile(sat.c_str());
     }
 
     std::cout << "Files added...\n";
