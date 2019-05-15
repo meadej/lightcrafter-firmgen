@@ -9,6 +9,7 @@ Ensure gcc is properly configured for your system and, within the source directo
 ```
 gcc -std=c++11 firmgen.cpp -o firmgen
 ```
+**Liz don't use make yet, I'm not sure how it will work on Mac**
 
 ### Usage
 Ensure your output executable from the build is located within the same folder as the images you want to add to the
