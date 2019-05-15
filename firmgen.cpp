@@ -14,10 +14,12 @@ uint32 compSize;
 int interpretArgs(int argc, char* argv[])
 {
     // Interpreting arguments to the program.
+    std::cout << argc << "\n";
     if (argc > 1)
     {
         for (int i = 0; i < argc; i++)
         {
+            std::cout << argv[i] << "\n";
             if (argv[i] ==  "--compress")
             {
                 compression = 5;
