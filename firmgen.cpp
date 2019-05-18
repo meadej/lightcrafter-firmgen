@@ -73,18 +73,33 @@ void addFile(const char* filename)
 
 int loadEmptyFirmware()
 {
-    char* emptyFrmwFile = "emptyfrmw.bin";
+    char* emptyFrmwFile = (char*)"emptyfrmw.bin";
 
     struct stat st;
-    if(stat(filename, &st) != 0)
+    if(stat(emptyFrmwFile, &st) != 0)
     {
         std::cout << "Filename not found.\n";
     }
 
     int size = st.st_size;
-    pByteArray = (unsigned char *)malloc(size);
+    char* pByteArray = (char *)malloc(size);
 
-    return DLPC350_Frmw_CopyAndVerifyImage(pByteArray, fileLen);
+    std::ifstream frmwFile(emptyFrmwFile, std::ifstream::binary);
+
+    // Read empty firmware file. Adapted from cpp documentation.
+    if (frmwFile)
+    {
+        frmwFile.seekg(0, frmwFile.end);
+        int length = frmwFile.tellg();
+        frmwFile.seekg(0, frmwFile.beg);
+
+       	frmwFile.read(pByteArray, length);
+
+        frmwFile.close();
+    }
+
+
+    return DLPC350_Frmw_CopyAndVerifyImage((const unsigned char*)pByteArray, size);
 }
 
 int main(int argc, char *argv[])
