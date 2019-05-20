@@ -12,12 +12,15 @@ gcc -std=c++11 firmgen.cpp -o firmgen
 
 ### Usage
 Ensure your output executable from the build is located within the same folder as the images you want to add to the
-firmware file and run
+firmware file as well as an empty firmware file title "emptyfrmw.bin" (provided)
+
+and then run
 ```
 ./firmgen [options]
 ```
 Viable option flags include
-* --compress : compress the firmware file for an easier transfer
+* --uncompress : leave the images uncompressed in the end firmware file. Be advised not all images may be loaded in this case
+* --basefile [filename] : specify an empty firmware file other than "emptyfrmw.bin"
 
 ### Credits
 Developed by Jonathan Meade for Elizabeth Strong.   

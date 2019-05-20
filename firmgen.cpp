@@ -10,8 +10,9 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
-uint8 compression = 0;
+uint8 compression = 5;
 uint32 compSize;
+char* emptyFrmwFile = (char*)"emptyfrmw.bin";
 
 int interpretArgs(int argc, char* argv[])
 {
@@ -20,10 +21,14 @@ int interpretArgs(int argc, char* argv[])
     {
         for (int i = 0; i < argc; i++)
         {
-            if (strcmp(argv[i], "--compress") == 0)
+            if (strcmp(argv[i], "--uncompress") == 0)
             {
-                compression = 5;
-                std::cout << "Auto-compression set.\n";
+                compression = 0;
+                std::cout << "Uncompressed set.\n";
+            }
+            else if (strcmp(argv[i], "--basefile") == 0)
+            {
+                emptyFrmwFile = (char*)argv[i + 1]
             }
         }
     }
@@ -73,8 +78,6 @@ void addFile(const char* filename)
 
 int loadEmptyFirmware()
 {
-    char* emptyFrmwFile = (char*)"emptyfrmw.bin";
-
     struct stat st;
     if(stat(emptyFrmwFile, &st) != 0)
     {
