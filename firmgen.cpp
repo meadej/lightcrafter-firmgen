@@ -13,6 +13,7 @@
 uint8 compression = 5;
 uint32 compSize;
 char* emptyFrmwFile = (char*)"emptyfrmw.bin";
+char* outputFile = (char*)"firmware.bin";
 
 int interpretArgs(int argc, char* argv[])
 {
@@ -29,6 +30,10 @@ int interpretArgs(int argc, char* argv[])
             else if (strcmp(argv[i], "--basefile") == 0)
             {
                 emptyFrmwFile = (char*)argv[i + 1];
+            }
+            else if (strcmp(argv[i], "--output") == 0)
+            {
+
             }
         }
     }
@@ -167,16 +172,13 @@ int main(int argc, char *argv[])
     std::cout << "Building firmware image...\n";
 
     DLPC350_Frmw_Get_NewFlashImage(&newFrmwImage, &newFrmwSize);
-    std::ofstream outfile ("firmware.bin",std::ofstream::binary);
+    std::ofstream outfile (outputFile,std::ofstream::binary);
     outfile.write((const char*)newFrmwImage, newFrmwSize);
     outfile.close();
 
     //Calculate size of firmware image
     struct stat st;
-    if(stat("firmware.bin", &st) != 0)
-    {
-        return 0;
-    }
+    stat(outputFile, &st) != 0;
 
     int size = st.st_size;
 
