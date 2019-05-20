@@ -5,7 +5,8 @@
 * gcc 9.1
 
 ### Building
-Ensure gcc is properly configured for your system and, within the source directory, run the following
+If possible, use the provided Makefile and run ```make``` on the command line to build. To get rid of old files, run ```make clean```.
+If there are errors with the Makefile, ensure gcc is properly configured for your system and, within the source directory, run the following
 ```
 gcc -std=c++11 firmgen.cpp -o firmgen
 ```
