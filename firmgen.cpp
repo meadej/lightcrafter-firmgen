@@ -28,7 +28,7 @@ int interpretArgs(int argc, char* argv[])
             }
             else if (strcmp(argv[i], "--basefile") == 0)
             {
-                emptyFrmwFile = (char*)argv[i + 1]
+                emptyFrmwFile = (char*)argv[i + 1];
             }
         }
     }
