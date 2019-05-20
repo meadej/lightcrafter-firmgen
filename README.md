@@ -21,6 +21,7 @@ and then run
 Viable option flags include
 * --uncompress : leave the images uncompressed in the end firmware file. Be advised not all images may be loaded in this case
 * --basefile [filename] : specify an empty firmware file other than "emptyfrmw.bin"
+* --output [filename] : specify an output file for the built firmware
 
 ### Credits
 Developed by Jonathan Meade for Elizabeth Strong.   

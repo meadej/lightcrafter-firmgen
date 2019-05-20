@@ -33,7 +33,7 @@ int interpretArgs(int argc, char* argv[])
             }
             else if (strcmp(argv[i], "--output") == 0)
             {
-
+		outputFile = (char*)argv[i + 1];
             }
         }
     }
