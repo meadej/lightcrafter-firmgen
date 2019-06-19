@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <algorithm>
 #include <cstring>
 #include <iostream>
 #include <fstream>
@@ -110,6 +111,37 @@ int loadEmptyFirmware()
     return DLPC350_Frmw_CopyAndVerifyImage((const unsigned char*)pByteArray, size);
 }
 
+bool sort_compare(std::string i, std::string j)
+{
+    std::string delimiter = "_";
+
+    size_t last = 0; 
+    size_t next = 0; 
+    std::string token_i;
+    std::string token_j;
+
+    while ((next = i.find(delimiter, last)) != std::string::npos) 
+    { 
+        last = next + 1; 
+    } 
+    token_i = i.substr(last);
+
+    last = 0;
+    next = 0;
+
+    while ((next = j.find(delimiter, last)) != std::string::npos)
+    {
+        last = next + 1;
+    }
+    token_j = j.substr(last);
+
+    std::string delim_new = ".";
+    std::string comp_i = token_i.substr(0,token_i.find(delim_new));
+    std::string comp_j = token_j.substr(0,token_j.find(delim_new));
+
+    return (std::stoi(comp_i) < std::stoi(comp_j));
+}
+
 int main(int argc, char *argv[])
 {
     unsigned char *newFrmwImage;
@@ -141,13 +173,15 @@ int main(int argc, char *argv[])
 				if (fname.find(".bmp", (fname.length() - 4)) != std::string::npos)	
 				{
 				    filecount += 1;
-					files.push_back(fname.c_str());
+				    files.push_back(fname.c_str());
 				}
 			}
    		}	
 	}
 
     closedir(dpdf);
+
+	std::sort(files.begin(),files.end(),sort_compare);
 
 	std::cout << "Files discovered...\n";
 	std::cout << "Initializing buffer...\n";
